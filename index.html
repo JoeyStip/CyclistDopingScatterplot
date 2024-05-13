@@ -15,7 +15,21 @@
             req.send();
             req.onload = function(){
                 const json = JSON.parse(req.responseText);
-                console.log(json)
+                console.log(json);
+
+                const w = 600;
+                const h = 500;
+                const padding = 30;
+
+                const xScale = d3.scaleLinear()
+                                    .domain(d3.minDataset((d)=>d.Year), d3.maxDataset((d)=>d.Year))
+                                    .range(padding, w-padding);
+                
+                const yScale = d3.scaleLinear()
+                                    .domain(d3.minDataset((d)=>d.Time), d3.maxDataset((d)=>d.Time))
+                                    .range(padding, h-padding);
+
+                
             }
 
         </script>
