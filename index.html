@@ -19,18 +19,43 @@
 
                 const w = 600;
                 const h = 500;
-                const padding = 30;
+                const padding = 40;
 
                 const xScale = d3.scaleLinear()
-                                    .domain(d3.minDataset((d)=>d.Year), d3.maxDataset((d)=>d.Year))
-                                    .range(padding, w-padding);
+                                    .domain([d3.min(json, (d)=>d.Year), d3.max(json, (d)=>d.Year)])
+                                    .range([padding, w-padding]);
                 
-                const yScale = d3.scaleLinear()
-                                    .domain(d3.minDataset((d)=>d.Time), d3.maxDataset((d)=>d.Time))
-                                    .range(padding, h-padding);
+                const yScale = d3.scaleTime()
+                                    .domain([d3.min(json, (d)=>d.Seconds),d3.max(json, (d)=>d.Seconds)])
+                                    .range([h-padding, padding]);
 
+                console.log(d3.min(json, (d)=>d.Time), typeof d3.min(json, (d)=>d.Time), yScale("35:35"))
                 
+                const svg = d3.select("body")
+                .append("svg")
+                .attr("width", w)
+                .attr("height", h);
+                
+                svg.selectAll("circle")
+                .data(json)
+                .enter()
+                .append("circle")
+                .attr("cx", (d)=>xScale(d.Year))
+                .attr("cy", (d)=>yScale(d.Seconds))
+                .attr("r", 8);
+            
+                const xAxis = d3.axisBottom(xScale);
+                const yAxis = d3.axisLeft(yScale);
+
+                svg.append("g")
+                    .attr("transform", "translate(0," + (h - padding) + ")")
+                    .call(xAxis);
+
+                svg.append("g")
+                    .attr("transform", "translate(" + padding + ",0)")
+                    .call(yAxis);
             }
+                
 
         </script>
         <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
