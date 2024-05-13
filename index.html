@@ -22,11 +22,11 @@
                 const padding = 40;
 
                 const xScale = d3.scaleLinear()
-                                    .domain([d3.min(json, (d)=>d.Year), d3.max(json, (d)=>d.Year)])
+                                    .domain([d3.min(json, (d)=>d.Year)-1, d3.max(json, (d)=>d.Year)])
                                     .range([padding, w-padding]);
                 
-                const yScale = d3.scaleTime()
-                                    .domain([d3.min(json, (d)=>d.Seconds),d3.max(json, (d)=>d.Seconds)])
+                const yScale = d3.scaleLinear()
+                                    .domain([d3.min(json, (d)=>d.Seconds)-5,d3.max(json, (d)=>d.Seconds)])
                                     .range([h-padding, padding]);
 
                 console.log(d3.min(json, (d)=>d.Time), typeof d3.min(json, (d)=>d.Time), yScale("35:35"))
