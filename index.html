@@ -32,33 +32,37 @@
                 //console.log(d3.min(json, (d)=>d.Time), typeof d3.min(json, (d)=>d.Time), yScale("35:35"))
                 
                 const svg = d3.select("body")
-                .append("svg")
-                .attr("width", w)
-                .attr("height", h);
+                    .append("svg")
+                    .attr("width", w)
+                    .attr("height", h);
                 
                 svg.selectAll("circle")
-                .data(json)
-                .enter()
-                .append("circle")
-                .attr("cx", (d)=>xScale(d.Year))
-                .attr("cy", (d)=>yScale(d.Seconds))
-                .attr("r", 8)
-                .attr("class", "dot")
-                .attr("data-xvalue", (d)=>d.Year)
-                .attr("data-yvalue", (d)=>new Date("0000T00:" + d.Time));
+                    .data(json)
+                    .enter()
+                    .append("circle")
+                    .attr("cx", (d)=>xScale(d.Year))
+                    .attr("cy", (d)=>yScale(d.Seconds))
+                    .attr("r", 8)
+                    .attr("class", "dot")
+                    .attr("data-xvalue", (d)=>d.Year)
+                    .attr("data-yvalue", (d)=>new Date("0000T00:" + d.Time));
             
-                const xAxis = d3.axisBottom(xScale).ticks(14,"f");
-                const yAxis = d3.axisLeft(yScale);
-
-                svg.append("g")
-                    .attr("transform", "translate(0," + (h - padding) + ")")
-                    .attr("id", "x-axis")
-                    .call(xAxis);
-
-                svg.append("g")
-                    .attr("transform", "translate(" + padding + ",0)")
-                    .attr("id", "y-axis")
-                    .call(yAxis);
+                const xAxisGenerator = d3.axisBottom(xScale).ticks(14,"f");
+                const yAxisGenerator = d3.axisLeft(yScale);
+                
+                const xAxis = svg.append("g")
+                            .attr("transform", "translate(0," + (h - padding) + ")")
+                            .attr("id", "x-axis")
+                            .call(xAxisGenerator)
+                
+                const yAxis = svg.append("g")
+                            .attr("transform", "translate(" + padding + ",0)")
+                            .attr("id", "y-axis")
+                            .call(yAxisGenerator);
+                
+                
+                yAxis.selectAll(".tick text")
+                    .text((d)=>Math.floor(d/60) + ":" + new Intl.NumberFormat("en-US",{minimumIntegerDigits: 2}).format(d%60))
             }
         </script>
         <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
