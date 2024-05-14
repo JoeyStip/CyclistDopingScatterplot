@@ -2,11 +2,11 @@
 <html>
     <head>
         <link href="./index.css" rel="stylesheet">
-        <title>Doping in Cycling Scatterplot</title>
+        <title id="title">Doping in Cycling Scatterplot</title>
         <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/512/5778/5778454.png">
     </head>
     <body>
-
+       
         <script type="module">
             import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
@@ -29,7 +29,7 @@
                                     .domain([d3.min(json, (d)=>d.Seconds)-5,d3.max(json, (d)=>d.Seconds)])
                                     .range([h-padding, padding]);
 
-                console.log(d3.min(json, (d)=>d.Time), typeof d3.min(json, (d)=>d.Time), yScale("35:35"))
+                //console.log(d3.min(json, (d)=>d.Time), typeof d3.min(json, (d)=>d.Time), yScale("35:35"))
                 
                 const svg = d3.select("body")
                 .append("svg")
@@ -42,21 +42,24 @@
                 .append("circle")
                 .attr("cx", (d)=>xScale(d.Year))
                 .attr("cy", (d)=>yScale(d.Seconds))
-                .attr("r", 8);
+                .attr("r", 8)
+                .attr("class", "dot")
+                .attr("data-xvalue", (d)=>d.Year)
+                .attr("data-yvalue", (d)=>new Date("0000T00:" + d.Time));
             
-                const xAxis = d3.axisBottom(xScale);
+                const xAxis = d3.axisBottom(xScale).ticks(14,"f");
                 const yAxis = d3.axisLeft(yScale);
 
                 svg.append("g")
                     .attr("transform", "translate(0," + (h - padding) + ")")
+                    .attr("id", "x-axis")
                     .call(xAxis);
 
                 svg.append("g")
                     .attr("transform", "translate(" + padding + ",0)")
+                    .attr("id", "y-axis")
                     .call(yAxis);
             }
-                
-
         </script>
         <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
     </body>
