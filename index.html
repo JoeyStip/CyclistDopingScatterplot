@@ -45,7 +45,8 @@
                     .attr("r", 8)
                     .attr("class", "dot")
                     .attr("data-xvalue", (d)=>d.Year)
-                    .attr("data-yvalue", (d)=>new Date("0000T00:" + d.Time));
+                    .attr("data-yvalue", (d)=>new Date("1970T00:" + d.Time));
+                        //console.log(new Date("0000T00:" + d.Time));
             
                 const xAxisGenerator = d3.axisBottom(xScale).ticks(14,"f");
                 const yAxisGenerator = d3.axisLeft(yScale);
