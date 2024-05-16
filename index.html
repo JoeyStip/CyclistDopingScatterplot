@@ -46,11 +46,16 @@
                     .attr("class", "dot")
                     .attr("data-xvalue", (d)=>d.Year)
                     .attr("data-yvalue", (d)=>new Date("1970T00:" + d.Time))
-                    .on("mouseover", function(){
+                    .on("mouseover", function(event, d){
+                        // console.log(d)
+                        const [time, dopeDesc, name, nationality, place, year] = [d.Time, d.Doping, d.Name, d.Nationality, d.Place, d.Year]
+                        
                         d3.select("#tooltip")
                             .attr("opacity", 1)
+                        
+                        toolTipText.text("time: " + time + "\n" + "description: " + dopeDesc)
                     })
-                    .on("mousemove", function(){
+                    .on("mousemove", function(event, d){
                         let [x, y] = d3.pointer(event);
                         if(y>420){
                             y = y - 50;
@@ -75,10 +80,10 @@
                                 .attr("width", 120)
                                 .attr("height", 50)
                                 .style("fill", "white")
-                                .append("text")
-                                .text("test");;
-                
-                toolTipContainer
+                                
+                const toolTipText = toolTipContainer.append("text")
+                                .text("test")
+                                .attr("transform", "translate(15, 15)")
                 
             
                 const xAxisGenerator = d3.axisBottom(xScale).ticks(14,"f");
