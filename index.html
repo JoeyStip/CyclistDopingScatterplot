@@ -47,20 +47,34 @@
                     .attr("data-xvalue", (d)=>d.Year)
                     .attr("data-yvalue", (d)=>new Date("1970T00:" + d.Time))
                     .on("mouseover", function(){
-                        d3.select("body")
+                        d3.select("#tooltip")
+                            .attr("opacity", 1)
+                    })
+                    .on("mousemove", function(){
+                        const [x, y] = d3.pointer(event);
+                        d3.select("#tooltip")
+                            .style("transform", `translate(${x}px, ${y}px)`)
+                            .attr("opacity", 1)    
+                            //.style("top", (event.pageY)+"px")
+                            //.style("left", (event.pageX)+"px")
+                    })
+                    .on("mouseout", function(){
+                        d3.select("#tooltip").attr("opacity", 0)
                     })
                 
                 const toolTipContainer = svg.append("g")
                                 .attr("id", "tooltip")
                                 .attr("opacity", 0)
+                                //.style("position", "absolute")
 
                 toolTipContainer.append("rect")
                                 .attr("width", 120)
                                 .attr("height", 50)
-                                .style("fill", "blue");
+                                .style("fill", "white")
+                                .append("text")
+                                .text("test");;
                 
-                toolTipContainer.append("text")
-                                .text("test");
+                toolTipContainer
                 
             
                 const xAxisGenerator = d3.axisBottom(xScale).ticks(14,"f");
