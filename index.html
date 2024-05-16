@@ -51,12 +51,16 @@
                             .attr("opacity", 1)
                     })
                     .on("mousemove", function(){
-                        const [x, y] = d3.pointer(event);
+                        let [x, y] = d3.pointer(event);
+                        if(y>420){
+                            y = y - 50;
+                        };
+                        if(x>500){
+                            x = x - 120;
+                        }
                         d3.select("#tooltip")
                             .style("transform", `translate(${x}px, ${y}px)`)
-                            .attr("opacity", 1)    
-                            //.style("top", (event.pageY)+"px")
-                            //.style("left", (event.pageX)+"px")
+                            .attr("opacity", 1);    
                     })
                     .on("mouseout", function(){
                         d3.select("#tooltip").attr("opacity", 0)
