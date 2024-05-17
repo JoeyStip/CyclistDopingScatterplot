@@ -50,7 +50,7 @@
                         // console.log(d)
                         const [time, dopeDesc, name, nationality, place, year] = [d.Time, d.Doping, d.Name, d.Nationality, d.Place, d.Year]
                         
-                        toolTip.attr("opacity", 1)
+                        toolTip.style("opacity", 1)
                         
                         //console.log(d3.select("#toolTipText"))
                         //d3.select("#toolTiptext").attr("innerhtml","time: " + time + "\n" + "description: " + dopeDesc)
@@ -67,12 +67,12 @@
                                 
                     })
                     .on("mouseout", function(){
-                        d3.select("#toolTip").attr("opacity", 0)
+                        toolTip.style("opacity", 0)
                     })
                 
                 const toolTip = d3.select("body").append("div")
                                 .attr("id", "tooltip")
-                                .attr("opacity", 0)
+                                .style("opacity", 0)
 
                 // toolTipContainer.append("rect")
                 //                 .attr("width", 120)
