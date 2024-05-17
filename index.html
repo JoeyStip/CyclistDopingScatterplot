@@ -47,13 +47,17 @@
                     .attr("data-xvalue", (d)=>d.Year)
                     .attr("data-yvalue", (d)=>new Date("1970T00:" + d.Time))
                     .on("mouseover", function(event, d){
-                        // console.log(d)
+                        
                         const [time, dopeDesc, name, nationality, place, year] = [d.Time, d.Doping, d.Name, d.Nationality, d.Place, d.Year]
                         
                         toolTip.style("opacity", 1)
-                        
-                        //console.log(d3.select("#toolTipText"))
-                        //d3.select("#toolTiptext").attr("innerhtml","time: " + time + "\n" + "description: " + dopeDesc)
+                                .html( 
+                                    "Name: " + name + "<br/" + 
+                                    "Time: " + time + "<br/>" +
+                                    "Year: " + year + "<br/>" + 
+                                    "Place: " + place + "<br/>" + 
+                                    "Nationality: " + nationality)
+                                .attr("data-year", year)
                     })
                     .on("mousemove", function(event, d){
                         let [x, y] = d3.pointer(event);
@@ -61,9 +65,9 @@
                             y = y - 50;
                         };
                         if(x>500){
-                            x = x - 120;
+                            x = x - 160;
                         }
-                        toolTip.style("transform", `translate(${x}px, ${y}px)`)
+                        toolTip.style("transform", `translate(${x+15}px, ${y-500}px)`)
                                 
                     })
                     .on("mouseout", function(){

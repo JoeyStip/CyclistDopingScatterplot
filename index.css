@@ -12,4 +12,8 @@ body {
   height: 50px;
   background-color: white;
   position: absolute;
+  padding: 8px;
+  font-size: small;
+  border: solid 1px black;
+  border-radius: 5px;
 }/*# sourceMappingURL=index.css.map */
