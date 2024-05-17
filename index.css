@@ -8,4 +8,8 @@ body {
 
 #tooltip {
   pointer-events: none;
+  width: 120px;
+  height: 50px;
+  background-color: white;
+  position: absolute;
 }/*# sourceMappingURL=index.css.map */

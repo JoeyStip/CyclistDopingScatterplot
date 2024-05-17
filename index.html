@@ -50,10 +50,10 @@
                         // console.log(d)
                         const [time, dopeDesc, name, nationality, place, year] = [d.Time, d.Doping, d.Name, d.Nationality, d.Place, d.Year]
                         
-                        d3.select("#tooltip")
-                            .attr("opacity", 1)
+                        toolTip.attr("opacity", 1)
                         
-                        toolTipText.text("time: " + time + "\n" + "description: " + dopeDesc)
+                        //console.log(d3.select("#toolTipText"))
+                        //d3.select("#toolTiptext").attr("innerhtml","time: " + time + "\n" + "description: " + dopeDesc)
                     })
                     .on("mousemove", function(event, d){
                         let [x, y] = d3.pointer(event);
@@ -63,27 +63,35 @@
                         if(x>500){
                             x = x - 120;
                         }
-                        d3.select("#tooltip")
-                            .style("transform", `translate(${x}px, ${y}px)`)
-                            .attr("opacity", 1);    
+                        toolTip.style("transform", `translate(${x}px, ${y}px)`)
+                                
                     })
                     .on("mouseout", function(){
-                        d3.select("#tooltip").attr("opacity", 0)
+                        d3.select("#toolTip").attr("opacity", 0)
                     })
                 
-                const toolTipContainer = svg.append("g")
+                const toolTip = d3.select("body").append("div")
                                 .attr("id", "tooltip")
                                 .attr("opacity", 0)
-                                //.style("position", "absolute")
 
-                toolTipContainer.append("rect")
-                                .attr("width", 120)
-                                .attr("height", 50)
-                                .style("fill", "white")
+                // toolTipContainer.append("rect")
+                //                 .attr("width", 120)
+                //                 .attr("height", 50)
+                //                 .style("fill", "white")
                                 
-                const toolTipText = toolTipContainer.append("text")
-                                .text("test")
-                                .attr("transform", "translate(15, 15)")
+                // const toolTipText = toolTipContainer.append("text")
+                //                 .text("test")
+                //                 .attr("transform", "translate(15, 15)")
+                //                 .attr("textLength", 320)
+                
+                // const toolTipText = toolTipContainer.append("foreignObject")
+                //                 .append("div")
+                //                 .attr("transform", "translate(15, 15)")
+                //                 .attr("xmlns", "http://www.w3.org/1999/xhtml")
+                //                 .attr("width", 120)
+                //                 .attr("height", 50)
+                //                 .attr("id", "toolTipText");
+                
                 
             
                 const xAxisGenerator = d3.axisBottom(xScale).ticks(14,"f");
