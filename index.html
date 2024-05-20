@@ -10,13 +10,17 @@
         <script type="module">
             import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
+            
             const req = new XMLHttpRequest();
             req.open("GET", "https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/cyclist-data.json", true);
             req.send();
             req.onload = function(){
                 const json = JSON.parse(req.responseText);
                 console.log(json);
-
+                
+                const aleg = "rgb(129, 85, 155)";
+                const noAleg = "rgb(123, 178, 217)";
+                
                 const w = 600;
                 const h = 500;
                 const padding = 40;
@@ -44,6 +48,7 @@
                     .attr("cy", (d)=>yScale(d.Seconds))
                     .attr("r", 8)
                     .attr("class", "dot")
+                    .style("fill", (d)=> d.Doping ? aleg : noAleg)
                     .attr("data-xvalue", (d)=>d.Year)
                     .attr("data-yvalue", (d)=>new Date("1970T00:" + d.Time))
                     .on("mouseover", function(event, d){
@@ -76,26 +81,7 @@
                 
                 const toolTip = d3.select("body").append("div")
                                 .attr("id", "tooltip")
-                                .style("opacity", 0)
-
-                // toolTipContainer.append("rect")
-                //                 .attr("width", 120)
-                //                 .attr("height", 50)
-                //                 .style("fill", "white")
-                                
-                // const toolTipText = toolTipContainer.append("text")
-                //                 .text("test")
-                //                 .attr("transform", "translate(15, 15)")
-                //                 .attr("textLength", 320)
-                
-                // const toolTipText = toolTipContainer.append("foreignObject")
-                //                 .append("div")
-                //                 .attr("transform", "translate(15, 15)")
-                //                 .attr("xmlns", "http://www.w3.org/1999/xhtml")
-                //                 .attr("width", 120)
-                //                 .attr("height", 50)
-                //                 .attr("id", "toolTipText");
-                
+                                .style("opacity", 0);
                 
             
                 const xAxisGenerator = d3.axisBottom(xScale).ticks(14,"f");
@@ -130,7 +116,7 @@
                             .attr("width", 15)
                             .attr("height", 15)
                             .attr("transform", "translate(85, -12)")
-                            .style("fill", "blue")
+                            .style("fill", noAleg)
                 
                 const secondLine = legendContainer.append("g")
 
@@ -143,7 +129,7 @@
                             .attr("width", 15)
                             .attr("height", 15)
                             .attr("transform", "translate(85,17)")
-                            .style("fill", "red")
+                            .style("fill", aleg)
                                 
                                 
                                 
