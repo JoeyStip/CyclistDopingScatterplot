@@ -25,7 +25,7 @@
                     top: 90,
                     right: 0,
                     bottom: 0,
-                    left: 40
+                    left: 60
                 }
                 
                 const w = 800 - margin.left - margin.right;
@@ -49,7 +49,7 @@
                     .attr("class", "svg")
                     //.attr("transform", "translate(" + (margin.left) + "," + margin.top + ")")
 
-                svg.append("text")
+                const Title = svg.append("text")
                     .text("Doping in Professional Cycling")
                     .attr("x", w/2)
                     .attr("y", 25)
@@ -83,7 +83,7 @@
                                 .attr("data-year", year)
                     })
                     .on("mousemove", function(event, d){
-                        console.log(event, event.srcElement)
+                        //console.log(event, event.srcElement)
 
                         let [x, y] = d3.pointer(event);
                         if(y>380){
@@ -115,15 +115,22 @@
                 const yAxis = svg.append("g")
                             .attr("transform", "translate(" + margin.left + ",0)")
                             .attr("id", "y-axis")
-                            .call(yAxisGenerator);
+                            .call(yAxisGenerator)
+                            
+                const yAxisLabel = svg.append("text")
+                                        .text("Minutes : Seconds")
+                                        .attr("transform", "translate(" + (margin.left -45) + "," + h*2/3 + ") rotate(-90)")
                 
+                const xAxisLabel = svg.append("text")
+                                        .text("Years")
+                                        .attr("transform", "translate(" + (w/2) + "," + (h+35) + ")")
                 
                 yAxis.selectAll(".tick text")
                     .text((d)=>Math.floor(d/60) + ":" + new Intl.NumberFormat("en-US",{minimumIntegerDigits: 2}).format(d%60))
                 
                 const legendContainer = svg.append("g")
                                             .attr("id", "legend")
-                                            .attr("transform", "translate(" + (w-150) + "," + h/2 + ")")
+                                            .attr("transform", "translate(" + (w-margin.left-45) + "," + h/2 + ")")
 
                 const firstLine = legendContainer.append("g")
                                 
