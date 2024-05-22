@@ -6,46 +6,36 @@
         <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/512/5778/5778454.png">
     </head>
     <body>
-       
         <script type="module">
             import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
-            
             const req = new XMLHttpRequest();
             req.open("GET", "https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/cyclist-data.json", true);
             req.send();
             req.onload = function(){
                 const json = JSON.parse(req.responseText);
-                console.log(json);
-                
                 const aleg = "rgb(129, 85, 155)";
                 const noAleg = "rgb(123, 178, 217)";
-                
                 const margin = {
                     top: 90,
                     right: 0,
                     bottom: 0,
                     left: 60
                 };
-                
                 const w = 800 - margin.left - margin.right;
                 const h = 700 - margin.top - margin.bottom;
                 const padding = 40;
-
                 const xScale = d3.scaleLinear()
-                                    .domain([d3.min(json, (d)=>d.Year)-1, d3.max(json, (d)=>d.Year)])
+                                    .domain([d3.min(json, (d)=>d.Year), d3.max(json, (d)=>d.Year)])
                                     .range([margin.left, w-margin.right]);
-                
                 const yScale = d3.scaleLinear()
                                     .domain([d3.min(json, (d)=>d.Seconds)-5,d3.max(json, (d)=>d.Seconds)])
                                     .range([h-margin.bottom, margin.top]);
-                
                 const svg = d3.select("body")
                     .append("svg")
                     .attr("width", w + margin.left + margin.right)
                     .attr("height", h + margin.top + margin.bottom)
                     .attr("class", "svg");
-
                 const Title = svg.append("text")
                     .text("Doping in Professional Cycling")
                     .attr("x", w/2)
@@ -53,7 +43,6 @@
                     .style("font-size", 35)
                     .attr("id", "title")
                     .attr("text-anchor", "middle");
-
                 svg.selectAll("circle")
                     .data(json)
                     .enter()
@@ -67,16 +56,15 @@
                     .attr("data-yvalue", (d)=>new Date("1970T00:" + d.Time))
                     .attr("opacity", 1)
                     .on("mouseover", function(event, d){
-                        
                         const [time, dopeDesc, name, nationality, place, year] = [d.Time, d.Doping, d.Name, d.Nationality, d.Place, d.Year];
-                        
                         toolTip.style("opacity", 1)
                                 .html( 
                                     "Name: " + name + "<br/>" + 
                                     "Time: " + time + "<br/>" +
                                     "Year: " + year + "<br/>" + 
                                     "Place: " + place + "<br/>" + 
-                                    "Nationality: " + nationality)
+                                    "Nationality: " + nationality + "<br/>" + 
+                                    "Doping: " + dopeDesc)
                                 .attr("data-year", year);
                     })
                     .on("mousemove", function(event, d){
@@ -85,74 +73,57 @@
                         if(y>-165){
                             y = y - 110;
                         };
-                        // if(x>1060){
-                        //     x = x - 160;
-                        // };
                         toolTip.style("transform", `translate(${x}px, ${y}px)`);      
                     })
                     .on("mouseout", function(){
                         toolTip.style("opacity", 0)
                     });
-                
                 const toolTip = d3.select("body").append("div")
                                 .attr("id", "tooltip")
                                 .style("opacity", 0);
                 
-            
                 const xAxisGenerator = d3.axisBottom(xScale).ticks(28,"f");
                 const yAxisGenerator = d3.axisLeft(yScale);
-                
                 const xAxis = svg.append("g")
                             .attr("transform", "translate(0," + (h - margin.bottom) + ")")
                             .attr("id", "x-axis")
                             .call(xAxisGenerator);
-                
                 const yAxis = svg.append("g")
                             .attr("transform", "translate(" + margin.left + ",0)")
                             .attr("id", "y-axis")
                             .call(yAxisGenerator);
-                            
                 const yAxisLabel = svg.append("text")
                                         .text("Minutes : Seconds")
                                         .attr("transform", "translate(" + (margin.left -45) + "," + h*2/3 + ") rotate(-90)");
-                
                 const xAxisLabel = svg.append("text")
                                         .text("Years")
                                         .attr("transform", "translate(" + (w/2) + "," + (h+35) + ")");
-                
                 yAxis.selectAll(".tick text")
                     .text((d)=>Math.floor(d/60) + ":" + new Intl.NumberFormat("en-US",{minimumIntegerDigits: 2}).format(d%60));
-                
                 const legendContainer = svg.append("g")
                                             .attr("id", "legend")
                                             .attr("transform", "translate(" + (w-margin.left-45) + "," + h/2 + ")");
-
                 const firstLine = legendContainer.append("g");
-                                
                 firstLine.append("text")
                             .attr("x",-70)
                             .attr("y", 0)
                             .text("No doping allegations");
-                        
                 firstLine.append("rect")
                             .attr("width", 15)
                             .attr("height", 15)
                             .attr("transform", "translate(85, -12)")
                             .style("fill", noAleg);
-                
                 const secondLine = legendContainer.append("g");
-
                 secondLine.append("text")
                             .attr("x", -77)
                             .attr("y", 30)
                             .text("Has doping allegations");
-
                 secondLine.append("rect")
                             .attr("width", 15)
                             .attr("height", 15)
                             .attr("transform", "translate(85,17)")
                             .style("fill", aleg);   
-                }
+                };
         </script>
         <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
     </body>
