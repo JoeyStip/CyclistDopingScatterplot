@@ -80,14 +80,14 @@
                                 .attr("data-year", year);
                     })
                     .on("mousemove", function(event, d){
-                        
-                        let [x, y] = [event.clientX, event.clientY-690];
+                        let [x, y] = [event.pageX + 0, event.pageY-690];
+                        console.log("pageX: ", x, "pageY: ", y, "clientX: ", event.clientX, "clientY: ", event.clientY)
                         if(y>-165){
                             y = y - 110;
                         };
-                        if(x>767){
-                            x = x - 160;
-                        };
+                        // if(x>1060){
+                        //     x = x - 160;
+                        // };
                         toolTip.style("transform", `translate(${x}px, ${y}px)`);      
                     })
                     .on("mouseout", function(){
